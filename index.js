@@ -5,6 +5,7 @@ import authRoute from "./routes/auth.js"
 import hotelsRoute from "./routes/hotels.js"
 import roomsRoute from "./routes/rooms.js"
 import usersRoute from "./routes/users.js"
+import cookieParser from "cookie-parser"
 const app=express()
 dotenv.config()
 const connect=async ()=>{
@@ -25,6 +26,7 @@ mongoose.connection.on("connected",()=>{
 
 // middleware
 app.use(express.json())  // to send post,delete request from the route
+app.use(cookieParser())
 app.use("/auth",authRoute)
 app.use("/hotels",hotelsRoute)
 app.use("/rooms",roomsRoute)
