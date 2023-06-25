@@ -7,7 +7,6 @@ export const register=async (req,res,next)=>{
         var salt = bcrypt.genSaltSync(10);
         var hash = bcrypt.hashSync(req.body.password, salt);
        const newUser= new User({
-        
         username:req.body.username,
         email:req.body.email,
         password:hash
@@ -25,7 +24,7 @@ export const login=async (req,res,next)=>{
         if(!user) return next(createError(404,"user not found"));
         const isPasswordCorrect=bcrypt.compareSync(req.body.password, user.password);
         if(!isPasswordCorrect) return next(createError(400,"password is wrong"));
-        const token=jwt.sign({id:user._id,isAdmin:user.isAdmin},process.env.JWT); // create a token with id, isAdmin
+        const token=jwt.sign({id:user._id,isAdmin:user.isAdmin},process.env.JWT); // create a token with id, isAdmin i.e. only limited information is stored.
         const {password, isAdmin, ...otherDetails}=user._doc;
         res.cookie("access_token",token,{ // send token before json
             httpOnly:true    // this does not allow any client secrete to reach this cookie
